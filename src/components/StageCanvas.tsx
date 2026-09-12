@@ -45,66 +45,76 @@ export function StageCanvas({ surface, layout, adSpec, showConstraints, selected
   return (
     <div 
       ref={containerRef}
-      className="flex-1 flex items-center justify-center technical-grid"
+      className="flex-1 w-full h-full flex items-center justify-center technical-grid"
       onClick={() => onSelectElement('')} // Deselect when clicking canvas background
+      style={{ overflow: 'hidden' }}
     >
-      <div 
-        style={{
-          position: 'relative',
-          width: `${scaledWidth}px`,
-          height: `${scaledHeight}px`,
-          background: 'var(--bg-card)',
-          boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
-          border: '1px solid var(--border-color)',
-        }}
-      >
-        {/* The actual mapped ad elements */}
-        <ResolvedAd 
-          layout={layout} 
-          adSpec={adSpec} 
-          scale={scale} 
-          selectedElementId={selectedElementId}
-          onSelectElement={onSelectElement}
-        />
-        
-        {/* Constraint Overlay (Safe Area) */}
-        {showConstraints && surface.safeArea && (
-          <div
-            style={{
-              position: 'absolute',
-              top: `${surface.safeArea.top * scale}px`,
-              right: `${surface.safeArea.right * scale}px`,
-              bottom: `${surface.safeArea.bottom * scale}px`,
-              left: `${surface.safeArea.left * scale}px`,
-              border: '1px solid var(--accent-secondary)',
-              pointerEvents: 'none',
-              zIndex: 9999,
-            }}
-          >
-            {/* Corner Markers */}
-            <div style={cornerMarkerStyle('top', 'left')} />
-            <div style={cornerMarkerStyle('top', 'right')} />
-            <div style={cornerMarkerStyle('bottom', 'left')} />
-            <div style={cornerMarkerStyle('bottom', 'right')} />
-            
-            <div 
+      {/* Wrapper to hold layout space */}
+      <div style={{ width: `${scaledWidth}px`, height: `${scaledHeight}px`, position: 'relative' }}>
+        {/* Actual scaled artboard */}
+        <div 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: `${surface.width}px`,
+            height: `${surface.height}px`,
+            background: 'var(--bg-card)',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+            border: '1px solid var(--border-color)',
+            transform: `scale(${scale})`,
+            transformOrigin: 'top left',
+            overflow: 'hidden'
+          }}
+        >
+          {/* The actual mapped ad elements */}
+          <ResolvedAd 
+            layout={layout} 
+            adSpec={adSpec} 
+            scale={1} 
+            selectedElementId={selectedElementId}
+            onSelectElement={onSelectElement}
+          />
+          
+          {/* Constraint Overlay (Safe Area) */}
+          {showConstraints && surface.safeArea && (
+            <div
               style={{
                 position: 'absolute',
-                top: '-18px',
-                left: '0',
-                background: 'var(--accent-secondary)',
-                color: '#11110F',
-                fontSize: '9px',
-                fontFamily: 'var(--font-mono)',
-                padding: '2px 6px',
-                fontWeight: 600,
-                textTransform: 'uppercase'
+                top: `${surface.safeArea.top}px`,
+                right: `${surface.safeArea.right}px`,
+                bottom: `${surface.safeArea.bottom}px`,
+                left: `${surface.safeArea.left}px`,
+                border: '1px solid var(--accent-secondary)',
+                pointerEvents: 'none',
+                zIndex: 9999,
               }}
             >
-              Safe Area
+              {/* Corner Markers */}
+              <div style={cornerMarkerStyle('top', 'left')} />
+              <div style={cornerMarkerStyle('top', 'right')} />
+              <div style={cornerMarkerStyle('bottom', 'left')} />
+              <div style={cornerMarkerStyle('bottom', 'right')} />
+              
+              <div 
+                style={{
+                  position: 'absolute',
+                  top: '-18px',
+                  left: '-1px',
+                  background: 'var(--accent-secondary)',
+                  color: '#11110F',
+                  fontSize: '9px',
+                  fontFamily: 'var(--font-mono)',
+                  padding: '2px 6px',
+                  fontWeight: 600,
+                  textTransform: 'uppercase'
+                }}
+              >
+                Safe Area
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
