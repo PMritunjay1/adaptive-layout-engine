@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* Core Palette: Warm Graphite / Industrial Editorial */
+  --bg-root: #11110F;
+  --bg-panel: #1B1B18;
+  --bg-card: #22221E;
+  --bg-hover: #2A2A26;
+  
+  --border-color: #33322E;
+  
+  --accent-primary: #E07A3F; /* Burnt Orange */
+  --accent-primary-hover: #D16B31;
+  --accent-secondary: #5FB3B3; /* Muted Cyan / Teal */
+  
+  /* Semantic */
+  --accent-success: #608F5D;
+  --accent-danger: #D15F5F;
+  --accent-warning: #D19A5F;
+
+  /* Typography */
+  --text-main: #F2EFE8; /* Warm White / Ivory */
+  --text-muted: #AAA79F; /* Warm Gray */
+
+  --font-sans: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Consolas', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-root);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* Base Structural Classes */
+.panel {
+  background-color: var(--bg-panel);
+  border-right: 1px solid var(--border-color);
+  border-left: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.panel-header {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.panel-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--border-color);
+  width: 100%;
+}
+
+/* Typography Hierarchy */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* Form Controls */
+input[type="number"], input[type="text"], select {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 6px 8px;
+  border-radius: 2px;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+input:focus {
+  border-color: var(--accent-primary);
+}
+
+label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+/* Buttons */
+button {
+  cursor: pointer;
+  font-family: var(--font-sans);
+  background: transparent;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 6px 12px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button:hover {
+  background: var(--bg-hover);
+  border-color: var(--text-muted);
+}
+
+button.primary {
+  background: var(--accent-primary);
+  color: #11110F;
+  border: 1px solid var(--accent-primary);
+  font-weight: 600;
+}
+
+button.primary:hover {
+  background: var(--accent-primary-hover);
+  border-color: var(--accent-primary-hover);
+}
+
+/* Surface Selector Rows */
+.surface-row {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  border-left: 2px solid transparent;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.surface-row:hover {
+  background: var(--bg-card);
+}
+.surface-row.active {
+  border-left-color: var(--accent-primary);
+  background: rgba(224, 122, 63, 0.05);
+}
+
+/* Technical Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-weight: 500;
+  border: 1px solid;
+}
+.badge.success {
+  color: var(--accent-success);
+  border-color: var(--accent-success);
+  background: rgba(96, 143, 93, 0.1);
+}
+.badge.error {
+  color: var(--accent-danger);
+  border-color: var(--accent-danger);
+  background: rgba(209, 95, 95, 0.1);
+}
+.badge.warning {
+  color: var(--accent-warning);
+  border-color: var(--accent-warning);
+  background: rgba(209, 154, 95, 0.1);
+}
+.badge.default {
+  color: var(--text-muted);
+  border-color: var(--border-color);
+  background: var(--bg-card);
+}
+
+/* Utility */
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.flex-1 { flex: 1; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.gap-1 { gap: 4px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.gap-6 { gap: 24px; }
+.p-2 { padding: 8px; }
+.p-3 { padding: 12px; }
+.p-4 { padding: 16px; }
+.p-6 { padding: 24px; }
+.m-0 { margin: 0; }
+.mb-1 { margin-bottom: 4px; }
+.mb-2 { margin-bottom: 8px; }
+.mb-4 { margin-bottom: 16px; }
+.mb-6 { margin-bottom: 24px; }
+.mt-1 { margin-top: 4px; }
+.mt-2 { margin-top: 8px; }
+.text-xs { font-size: 11px; }
+.text-sm { font-size: 13px; }
+.text-md { font-size: 16px; }
+.text-lg { font-size: 20px; }
+.text-xl { font-size: 24px; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.text-muted { color: var(--text-muted); }
+.border { border: 1px solid var(--border-color); }
+.border-b { border-bottom: 1px solid var(--border-color); }
+.border-t { border-top: 1px solid var(--border-color); }
+.rounded { border-radius: 2px; }
+.bg-card { background: var(--bg-card); }
+.bg-root { background: var(--bg-root); }
+.uppercase { text-transform: uppercase; }
+.tracking-wider { letter-spacing: 1px; }
+
+/* Technical Grid */
+.technical-grid {
+  background-color: var(--bg-root);
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-root); 
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color); 
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted); 
+}
