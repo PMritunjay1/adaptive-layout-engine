@@ -105,17 +105,26 @@ function ElementContent({ type, content, imageUrl, state, scale }: { type: strin
       return (
         <div style={{ width: '100%', height: '100%', background: 'var(--bg-panel)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: `2px`, overflow: 'hidden', border: '1px solid var(--border-color)' }}>
           {imageUrl ? (
-            <img src={imageUrl} alt="Ad content" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          ) : (
-            <>
-              <svg width={`${24 * scale}`} height={`${24 * scale}`} viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5 }}>
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                <polyline points="21 15 16 10 5 21"></polyline>
-              </svg>
-              <span style={{ fontSize: `${9 * scale}px`, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginTop: `${6 * scale}px`, fontFamily: 'var(--font-mono)' }}>IMAGE</span>
-            </>
-          )}
+            <img 
+              src={imageUrl} 
+              alt="Ad content" 
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                if (e.currentTarget.nextElementSibling) {
+                  (e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex';
+                }
+              }} 
+            />
+          ) : null}
+          <div style={{ display: imageUrl ? 'none' : 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
+            <svg width={`${24 * scale}`} height={`${24 * scale}`} viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5 }}>
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+            <span style={{ fontSize: `${9 * scale}px`, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginTop: `${6 * scale}px`, fontFamily: 'var(--font-mono)' }}>IMAGE</span>
+          </div>
         </div>
       );
     case 'price':

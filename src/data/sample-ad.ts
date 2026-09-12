@@ -27,6 +27,7 @@ export const sampleAd: AdSpec = {
       priority: 3,
       degradation: { allowResize: true, allowReposition: true, allowTruncate: false, allowHide: false },
       preferredPosition: 'center',
+      imageUrl: "/images/headphones.jpg",
       aspectRatio: 1, // Square image
       minWidth: 100,
     },
