@@ -26,8 +26,8 @@ export function StageCanvas({ surface, layout, adSpec, showConstraints, selected
       const availableWidth = container.contentRect.width - padding;
       const availableHeight = container.contentRect.height - padding;
       
-      const scaleX = availableWidth / surface.width;
-      const scaleY = availableHeight / surface.height;
+      const scaleX = Math.max(0.01, availableWidth / surface.width);
+      const scaleY = Math.max(0.01, availableHeight / surface.height);
       
       setScale(Math.min(scaleX, scaleY, 1.5));
     });

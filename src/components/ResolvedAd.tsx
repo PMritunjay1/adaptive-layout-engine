@@ -54,7 +54,7 @@ export function ResolvedAd({ layout, adSpec, selectedElementId, onSelectElement,
               justifyContent: 'center'
             }}
           >
-            <ElementContent type={specEl.type} content={specEl.content} imageUrl={specEl.imageUrl} state={resolvedEl.state} scale={scale} />
+            <ElementContent type={specEl.type} content={specEl.content} imageUrl={specEl.imageUrl} state={resolvedEl.state} w={resolvedEl.width} h={resolvedEl.height} />
           </div>
         );
       })}
@@ -62,7 +62,7 @@ export function ResolvedAd({ layout, adSpec, selectedElementId, onSelectElement,
   );
 }
 
-function ElementContent({ type, content, imageUrl, state, scale }: { type: string, content?: string, imageUrl?: string, state: string, scale: number }) {
+function ElementContent({ type, content, imageUrl, state, w, h }: { type: string, content?: string, imageUrl?: string, state: string, w: number, h: number }) {
   const isTruncated = state === 'truncated';
   const textStyle: React.CSSProperties = {
     textAlign: 'center',
@@ -70,22 +70,25 @@ function ElementContent({ type, content, imageUrl, state, scale }: { type: strin
     whiteSpace: isTruncated ? 'nowrap' : 'normal',
     overflow: 'hidden',
     textOverflow: isTruncated ? 'ellipsis' : 'clip',
-    padding: `${4 * scale}px`,
+    padding: `4px`,
     fontFamily: 'var(--font-sans)',
   };
 
   switch (type) {
-    case 'headline':
+    case 'headline': {
+      const fs = Math.max(16, Math.min(w * 0.15, h * 0.5));
       return (
-        <div style={{ ...textStyle, fontSize: `${24 * scale}px`, fontWeight: 600, color: '#F2EFE8' }}>
+        <div style={{ ...textStyle, fontSize: `${fs}px`, fontWeight: 600, color: '#F2EFE8', padding: `8px` }}>
           {content}
         </div>
       );
-    case 'cta':
+    }
+    case 'cta': {
+      const fs = Math.max(12, Math.min(w * 0.15, h * 0.4));
       return (
         <div style={{ 
           ...textStyle, 
-          fontSize: `${14 * scale}px`, 
+          fontSize: `${fs}px`, 
           fontWeight: 600, 
           background: 'var(--accent-primary)', 
           color: '#11110F',
@@ -96,11 +99,13 @@ function ElementContent({ type, content, imageUrl, state, scale }: { type: strin
           borderRadius: `2px`,
           whiteSpace: 'nowrap',
           textTransform: 'uppercase',
-          letterSpacing: '0.5px'
+          letterSpacing: '0.5px',
+          padding: `8px`
         }}>
           {content}
         </div>
       );
+    }
     case 'image':
       return (
         <div style={{ width: '100%', height: '100%', background: 'var(--bg-panel)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: `2px`, overflow: 'hidden', border: '1px solid var(--border-color)' }}>
@@ -118,34 +123,40 @@ function ElementContent({ type, content, imageUrl, state, scale }: { type: strin
             />
           ) : null}
           <div style={{ display: imageUrl ? 'none' : 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
-            <svg width={`${24 * scale}`} height={`${24 * scale}`} viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5 }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5 }}>
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
               <circle cx="8.5" cy="8.5" r="1.5"></circle>
               <polyline points="21 15 16 10 5 21"></polyline>
             </svg>
-            <span style={{ fontSize: `${9 * scale}px`, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginTop: `${6 * scale}px`, fontFamily: 'var(--font-mono)' }}>IMAGE</span>
+            <span style={{ fontSize: `9px`, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', marginTop: `6px`, fontFamily: 'var(--font-mono)' }}>IMAGE</span>
           </div>
         </div>
       );
-    case 'price':
+    case 'price': {
+      const fs = Math.max(14, Math.min(w * 0.25, h * 0.6));
       return (
-        <div style={{ ...textStyle, fontSize: `${20 * scale}px`, fontWeight: 700, color: 'var(--text-main)' }}>
+        <div style={{ ...textStyle, fontSize: `${fs}px`, fontWeight: 700, color: 'var(--text-main)', padding: `8px` }}>
           {content}
         </div>
       );
-    case 'branding':
+    }
+    case 'branding': {
+      const fs = Math.max(10, Math.min(w * 0.2, h * 0.5));
       return (
-        <div style={{ ...textStyle, fontSize: `${12 * scale}px`, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: `${1 * scale}px` }}>
+        <div style={{ ...textStyle, fontSize: `${fs}px`, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: `1px`, padding: `8px` }}>
           {content}
         </div>
       );
-    case 'secondaryText':
+    }
+    case 'secondaryText': {
+      const fs = Math.max(10, Math.min(w * 0.1, h * 0.4));
       return (
-        <div style={{ ...textStyle, fontSize: `${12 * scale}px`, color: 'var(--text-muted)' }}>
+        <div style={{ ...textStyle, fontSize: `${fs}px`, color: 'var(--text-muted)', padding: `8px` }}>
           {content}
         </div>
       );
+    }
     default:
-      return <div style={{ ...textStyle, fontSize: `${12 * scale}px`, background: 'var(--bg-panel)', width: '100%', height: '100%', border: '1px solid var(--border-color)' }}>{content || type}</div>;
+      return <div style={{ ...textStyle, fontSize: `12px`, background: 'var(--bg-panel)', width: '100%', height: '100%', border: '1px solid var(--border-color)' }}>{content || type}</div>;
   }
 }
